@@ -18,25 +18,24 @@
 
 \title{A Post-Fabrication-Tunable Time-Domain Multi-Row Read for 1T1R RRAM Processing-in-Memory in 130\,nm SG13G2}
 
-\author{\IEEEauthorblockN{Eyal Yemini, Adi Teman and Leonid Yavits}
+\author{\IEEEauthorblockN{Eyal Yemini, Adam Teman, and Leonid Yavits}
 \IEEEauthorblockA{Faculty of Engineering, Bar-Ilan University, Ramat Gan, Israel\\
-Eyal.yemini@live.biu.ac.il}}
+eyal.yemini@live.biu.ac.il}}
 
 \maketitle
 
 \begin{abstract}
-A research chip's RRAM is characterized only after tape-out. A processing-in-memory (PiM) read
+The RRAM of a research chip is characterized only after tape-out. A processing-in-memory (PiM) read
 designed for one operating point can therefore miss it. This paper presents a read path whose
 operating point is chosen after fabrication, and a method that turns its simulation into a
-budget for the device. The read path is part of a tape-out-ready 1T1R macro in IHP's 130\,nm
+budget for the device. The read path is part of a tape-out-ready 1T1R macro in the IHP 130\,nm
 SG13G2 process. Each column converts the bit-line discharge time into a thermometer code with a
-delay-line TDC, so opening several rows turns a read into an in-memory NOR or majority. A
-controller sets the converter's window, tap pitch and drive levels after fabrication.
+delay-line time-to-digital converter (TDC), so opening several rows turns a read into an in-memory NOR or majority. A controller sets the window, tap pitch, and drive levels of the converter after fabrication.
 Transistor-level simulation with the extracted bit-line loading and the RRAM device capacitance
-gives each operation's margin, and a Monte Carlo converts it into the resistance spread it
-tolerates. The budget sets the device requirement: the single-row read works at IHP's median
-high-resistance state, and multi-row logic requires the deep-reset state with a verify-tight
-spread, both within the module's programming options. All results are pre-silicon.
+gives the margin of each operation, and a Monte Carlo analysis converts it into the resistance spread it
+tolerates. The budget sets the device requirement: the single-row read works at the median
+high-resistance state of the IHP module, and multi-row logic requires the deep-reset state with a verify-tight
+spread, both within the programming options of the module. All results are pre-silicon.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -47,7 +46,7 @@ RRAM, 1T1R, processing-in-memory, time-domain readout, time-to-digital converter
 \input{sec2_macro}
 \input{sec3_ctrl}
 \input{sec4_results}
-\input{sec5_impl}
+
 \input{sec6_concl}
 
 \bibliographystyle{IEEEtran}
