@@ -76,6 +76,7 @@ def arch(ax):
 
 
 def layout(ax):
+    # LEF_NOTE: dimension labels use the LEF size (226.53 x 547.355); the GDS bbox is 226.8 wide with boundary markers
     import gdstk  # only the layout panel needs it
     lib = gdstk.read_gds(str(GDS))
     top = lib.top_level()[0]
@@ -106,9 +107,9 @@ def layout(ax):
     ax.set_xlim(x0 - 2, x1 + 30), ax.set_ylim(y0 - 14, y1 + 2)
     ax.set_aspect("equal"), ax.axis("off")
     ax.annotate("", xy=(x0, y0 - 6), xytext=(x1, y0 - 6), arrowprops=dict(arrowstyle="<->", lw=0.5, color=S.INK2))
-    ax.text((x0 + x1) / 2, y0 - 8, f"{x1 - x0:.0f} µm", fontsize=5.6, ha="center", va="top", color=S.INK2)
+    ax.text((x0 + x1) / 2, y0 - 8, "226.5 µm", fontsize=5.6, ha="center", va="top", color=S.INK2)
     ax.annotate("", xy=(x1 + 6, y0), xytext=(x1 + 6, y1), arrowprops=dict(arrowstyle="<->", lw=0.5, color=S.INK2))
-    ax.text(x1 + 9, (y0 + y1) / 2, f"{y1 - y0:.0f} µm", fontsize=5.6, rotation=90, ha="left", va="center", color=S.INK2)
+    ax.text(x1 + 9, (y0 + y1) / 2, "547.4 µm", fontsize=5.6, rotation=90, ha="left", va="center", color=S.INK2)
     labels = [("memory_1t1r_8x8_CB_PWR", "TS_LS"), ("memory_1t1r_1T1RCB_8x8", "array"),
               ("memory_1t1r_8x8_CB_PWR_WL", "WL"), ("memory_1t1r_TDC_SAMPLE", "TDC")]
     for name, lab in labels:
