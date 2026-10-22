@@ -12,7 +12,7 @@ A buffer with a threshold of about 0.6\,V converts BL into a digital signal, and
 The result is a thermometer code that counts the taps at which BL was still high, so that a low-resistance (LRS) cell gives a short code and a high-resistance (HRS) cell a long one (Fig.~\ref{fig:schematic}(b)).
 
 Three knobs place the decision, and none of them is a transistor size.
-The controller inserts a signed offset between its drain step and the READ pulse in 10\,ns steps, positive when the drain comes first, which moves the sampling window along the discharge; a dedicated supply pad $\Vdel$ sets the delay of the line and with it the tap pitch; and the word-line supply $\Vg$ sets the access-transistor resistance together with the level-shifter delay.
+The controller inserts a signed offset between its drain step and the READ pulse in 10\,ns steps, positive when the drain comes first, so READ follows the drain step by one cycle plus the offset; a dedicated supply pad $\Vdel$ sets the delay of the line and with it the tap pitch; and the word-line supply $\Vg$ sets the access-transistor resistance together with the level-shifter delay.
 The first tap fires 3.4\,ns after the READ edge, and the pitch is 0.35, 0.24, and 0.18\,ns at $\Vdel=0.8$, 0.9, and 1.0\,V, so the window spans 2.5 to 1.3\,ns; below about 0.7\,V the swing of the line no longer clocks the 1.2\,V sampling flip-flops, which bounds the window to about 5\,ns, narrower than the step in which it moves.
 All three are registers or pads, so the window is placed after the fabricated cells have been measured, with no reference cell programmed from the same uncertain device.
 
