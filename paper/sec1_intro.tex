@@ -13,7 +13,7 @@ A reference-tracked sense amplifier compares against reference cells programmed 
 What remains open is a read whose decision point does not come from the model at all, but is placed after the fabricated cells have been measured.
 
 This work proposes a time-domain read with exactly that property.
-Instead of a voltage-mode sense amplifier, every column converts the time the bit line takes to discharge through the selected cells into a thermometer code with an eight-tap delay-line TDC, and the sampling window, the tap pitch, and the drive levels are set by registers and supply pads rather than by transistor sizing.
+Every column converts the time the bit line takes to discharge through the selected cells into a thermometer code with an eight-tap delay-line TDC, and the sampling window, the tap pitch, and the drive levels are set by registers and supply pads rather than by transistor sizing.
 Because the decision is a threshold on a code, opening several rows turns the same read into an in-memory NOR or majority.
 The read path and its controller are implemented in a tape-out-ready 64$\times$64 1T1R macro.
 Post-layout simulation with the extracted bit-line loading separates a single row by all eight taps and resolves an 8-row NOR by six taps and an 8-row majority by two, and an access returns 64 decisions in 0.45\,\si{\micro\second} for 64 to 107\,pJ.
