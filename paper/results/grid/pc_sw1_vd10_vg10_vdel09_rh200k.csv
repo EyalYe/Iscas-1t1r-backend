@@ -1,0 +1,3 @@
+k,nrows,rl,rh,vgate,vdrain,vdel,precharge,cmem,cbl,settle,settle_drain,drain_first,sample,tap0_after_drain_ns,tap7_after_drain_ns,bl_at_drain_V,bl_cross_after_drain_ns,code,ones,samples,taps_after_edge_ns,vrram_max_V,icell_max_uA
+0,1,9k,200k,1.0,1.0,0.9,40,10.0,70.0,1,1,0,0,11.3932,13.0577,1.0,42.236,11111111,8,,1.393 1.632 1.870 2.107 2.345 2.582 2.820 3.058,0.1951,0.975
+1,1,9k,200k,1.0,1.0,0.9,40,10.0,70.0,1,1,0,0,11.3932,13.0577,1.0,20.3747,11111111,8,,1.393 1.632 1.870 2.107 2.345 2.582 2.820 3.058,0.0378,4.205

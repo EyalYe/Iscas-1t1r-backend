@@ -1,0 +1,32 @@
+\section{Introduction}
+\label{sec:intro}
+Resistive RAM (RRAM) in a one-transistor-one-resistor (1T1R) array stores data as conductance.
+When several word lines open at once, the bit line sums the conductances of the selected cells,
+and the array becomes a computing element. A multi-row read then yields bulk bitwise
+operations~\cite{li2016pinatubo} or an analog multiply-accumulate~\cite{chi2016prime,shafiee2016isaac}
+in a single access~\cite{ielmini2018inmemory}. Stateful memristive logic complements this by writing
+the result into a cell: material implication~\cite{borghetti2010memristive}, NOR~\cite{kvatinsky2014magic},
+majority~\cite{gaillardon2016plim}.
+Silicon demonstrations of RRAM processing-in-memory (PiM) rely on dedicated sense circuits with
+tracking references or calibration~\cite{chen2018rram65nm,wan2022neurram}, and time-domain readout with TDCs digitizes
+in-memory multiply-accumulate compactly~\cite{sayal2020timedomain,xue2024tdcim}. On an academic research chip, however, the operating point of the memory element is known only
+after tape-out, and so are its resistance spread and its parasitic capacitances. The readout
+therefore has to be \emph{tunable after fabrication}, not optimized for one assumed point.
+
+This paper presents a PiM read path designed for that situation, verified to a tape-out-ready
+64$\times$64 macro in the IHP SG13G2 130\,nm BiCMOS process with its back-end HfAlO RRAM
+module~\cite{perez2017hfalo}. Instead of voltage-mode sense
+amplifiers, every column converts the bit-line \emph{discharge time} into an 8-bit thermometer
+code with an 8-tap delay-line TDC. With several rows open the discharge time measures the summed cell conductance, i.e.\ an
+in-memory NOR or majority. The sampling instant, tap pitch and drive levels are all set from
+software, through dedicated supply pads and a register-programmable controller. Unlike the reference-tracked or calibrated sense circuits of~\cite{chen2018rram65nm,wan2022neurram}
+and the MAC-oriented TDC readouts of~\cite{sayal2020timedomain,xue2024tdcim}, this is a
+bitwise-logic read whose decision window is placed after fabrication. All results are pre-silicon.
+
+The contributions are: (i) a time-domain multi-row read whose window position, tap pitch and
+drive levels are set after fabrication by a 21-state controller, co-verified in SPICE/AMS with
+the RTL (Sections~\ref{sec:macro}, \ref{sec:ctrl}); (ii) a transistor-level evaluation of NOR
+and majority as decision margins in TDC taps over the read supplies, the state resistance and
+the number of rows, with energy and read disturb (Section~\ref{sec:results}); and (iii) a
+budget derived from those margins: the resistance spread, corners and temperatures each
+operation tolerates, i.e.\ what the RRAM cell has to provide for the read to work.

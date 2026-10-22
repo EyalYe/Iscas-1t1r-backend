@@ -1,0 +1,16 @@
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+operation & HRS, $\Vd/\Vg/\Vdel$ (V) & \multicolumn{4}{c}{$C_\mathrm{MIM}$ (fF)}\\
+\cmidrule(l){3-6}
+ & & 0 & 5 & 10 & 15\\
+\midrule
+read, 1 row & 200\,k, 0.8/0.8/0.8 & 8 & 8 & 8 & 8\\
+NOR, 8 rows & 200\,k, 0.8/1.0/0.8 & 0 & 0 & 0 & 1\\
+popcount & 200\,k, 0.8/1.0/0.8 & 2 c. & 3 c. & 3 c. & 3 c.\\
+NOR, 8 rows & 1\,M$^\dagger$, 1.0/0.8/0.8 & 8 & 8 & 8 & 8\\
+majority-8 & 1\,M$^\dagger$, 1.0/0.8/0.8 & 3 & 2 & 2 & 1\\
+popcount & 1\,M$^\dagger$, 1.0/0.8/0.8 & 5 c. & 5 c. & 5 c. & 5 c.\\
+\midrule
+\multicolumn{6}{@{}l}{margins in taps at the best READ\_SAMPLE position; c.: distinct codes; $^\dagger$ideal HRS}\\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,10 @@
+op,T_C,margin_fixed,margin_retuned
+read,-40,8,8
+read,27,8,8
+read,125,8,8
+nor8,-40,0,5
+nor8,27,5,5
+nor8,125,0,1
+maj8,-40,0,2
+maj8,27,2,2
+maj8,125,0,0

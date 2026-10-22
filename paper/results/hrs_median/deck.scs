@@ -1,0 +1,14 @@
+// DC check of the access transistor + cell at the read bias: I vs cell R and Vgate
+simulator lang=spectre
+include "/tech/ihp/sg13g2/PDK/1.3.4/tech/SG13_MOS/library/spectreG2/cornerMOShv_psp.scs" section=tt
+parameters vg=0.8 vd=0.9 r=200k
+VG (g 0) vsource dc=vg
+VD (d 0) vsource dc=vd
+MN0 (d g s 0) sg13_hv_nmos m=1 w=300.0n l=450.00n ng=1
+R1 (s 0) resistor r=r
+save R1:1 s
+sw sweep param=r values=[9k 30k 60k 120k 200k 1M] {
+  sw2 sweep param=vg values=[0.8 0.9 1.0] {
+    dc1 dc
+  }
+}

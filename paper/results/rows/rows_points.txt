@@ -1,0 +1,5 @@
+# op rh vdrain vgate   (largest n with margin >= 1 in phase 1, its best supply)
+nor 200k 0.9 0.8   # n=8 margin 5
+nor 1M 0.8 0.8   # n=8 margin 8
+maj 200k 1.0 0.8   # n=8 margin 2
+maj 1M 1.0 0.8   # n=8 margin 4

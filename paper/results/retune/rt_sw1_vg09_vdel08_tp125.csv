@@ -1,0 +1,3 @@
+k,nrows,corner,temp,seed,rl_sigma,rh_sigma,rl,rh,vgate,vdrain,vdel,precharge,cmem,cbl,settle,settle_drain,drain_first,sample,tap0_after_drain_ns,tap7_after_drain_ns,bl_at_drain_V,bl_cross_after_drain_ns,code,ones,samples,taps_after_edge_ns,vrram_max_V,icell_max_uA
+0,1,tt,125.0,0,0.0,0.0,9.321k,173.39k,0.9,0.8,0.8,40,10.0,70.0,1,1,2,0,31.6582,33.691,0.8,28.8468,00000000,0,,1.658 1.948 2.238 2.529 2.819 3.110 3.400 3.691,0.1553,0.896
+1,1,tt,125.0,0,0.0,0.0,9.321k,173.39k,0.9,0.8,0.8,40,10.0,70.0,1,1,2,0,31.6582,33.691,0.8,18.7268,00000000,0,,1.658 1.948 2.238 2.529 2.819 3.110 3.400 3.691,0.0256,2.741

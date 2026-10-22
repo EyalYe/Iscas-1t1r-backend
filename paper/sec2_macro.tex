@@ -1,0 +1,52 @@
+\section{Macro and Time-Domain Multi-Row Read}
+\label{sec:macro}
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{macro}
+\caption{(a) Macro and controller architecture: the host writes the row mask, data word and timings;
+the FSM sequences the drivers, word lines, drain switches and READ, and the 512-bit thermometer
+result returns through the DATA register. (b) The tape-out-ready layout, 227$\times$547\,\si{\micro\meter},
+blocks outlined.}
+\label{fig:macro}
+\end{figure}
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{schematic}
+\caption{(a) One of the 64 columns of the macro (from the layout netlist). The RRAM top
+electrode connects to SL, the high-voltage (HV) access transistor to BL. (b) Read sequence:
+precharge BL to $\Vd$, open the selected word lines, then discharge through DRAIN$_\mathrm{SL}$;
+the TDC samples BL at eight taps after the READ edge.}
+\label{fig:schematic}
+\end{figure}
+
+\subsection{Array and drivers}
+The macro (226.5$\times$547.4\,\si{\micro\meter\squared}, Fig.~\ref{fig:macro}, Table~\ref{tab:impl}) holds 4096 1T1R cells on a 2.26$\times$2.77\,\si{\micro\meter} pitch, each an HV
+nMOS (W/L = 300/450\,nm) in series with an IHP MEMRES device whose top electrode connects to the
+source line SL[c] and whose access transistor connects to the bit line BL[c]
+(Fig.~\ref{fig:schematic}(a)). Each column has a tri-state level-shifting driver (TS\_LS) from $\Vd$ that drives SL or BL high
+(SET or RESET polarity, the latter also the read precharge) or leaves both floating. Two global HV switches, DRAIN$_\mathrm{SL}$ and
+DRAIN$_\mathrm{BL}$, ground all source or bit lines. Each word line is driven through a
+pipeline flip-flop and a cross-coupled level shifter (LS) supplied from $\Vg$, so a row-select
+mask written in one cycle opens the word lines in the next. An arbitrary 64-bit row mask opens any subset of rows at once, which turns a read into a
+PiM operation.
+
+\subsection{Time-domain readout}
+A read precharges BL to $\Vd$, opens the selected rows and then turns on DRAIN$_\mathrm{SL}$.
+BL discharges through the selected cells with a time constant set by the cell resistance, the
+access-transistor resistance and the bit-line capacitance. A 1.2\,V buffer with a threshold of
+about 0.6\,V converts BL into a digital signal BLD, and eight flip-flops sample BLD on the eight
+taps CLK\_IN[7:0] of a delay line triggered by READ (Fig.~\ref{fig:schematic}(a)). The line is
+shared by all columns and supplied from its own pad $\Vdel$, which sets the tap pitch. The
+result, MEM\_OUT[8c+k], is a thermometer code that counts the taps at which BL was still high: a
+low-resistance (LRS) cell gives a short code and a high-resistance (HRS) cell a long one
+(Fig.~\ref{fig:schematic}(b)).
+
+With $n$ rows open, the column conductance is the sum of the selected cells, so the discharge
+time, and with it the code $c(k)$, falls monotonically with the number $k$ of LRS cells. The
+in-memory operations are code thresholds, each with a margin measured in taps: NOR over
+the $n$ rows separates $k=0$ from $k\ge1$, margin $c(0)-c(1)$; majority separates $k\le n/2$
+from $k>n/2$, margin $c(n/2)-c(n/2+1)$.\footnote{A population count (a distinct code per $k$) is obtained only for two rows (Section~\ref{sec:pim}).} Three knobs place
+the decision: the TDC fires a fixed delay after
+READ, so the controller's offset between DRAIN$_\mathrm{SL}$ and READ moves the sampling instant
+in 10\,ns steps; $\Vdel$ sets the tap pitch; and $\Vg$ sets both the level-shifter delay and the
+access-transistor resistance.

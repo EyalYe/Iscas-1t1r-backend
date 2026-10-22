@@ -1,0 +1,56 @@
+\documentclass[conference]{IEEEtran}
+% ISCAS 2027: IEEEtran conference mode, US letter, 4 pages of content + 1 optional page of references only.
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{newtxtext,newtxmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage[hidelinks]{hyperref}
+\sisetup{detect-all, per-mode=symbol}
+\graphicspath{{../figs/}}
+\newcommand{\Vg}{V_\mathrm{gate}}
+\newcommand{\Vd}{V_\mathrm{drain}}
+\newcommand{\Vdel}{V_\mathrm{DEL}}
+
+\begin{document}
+
+\title{A Post-Fabrication-Tunable Time-Domain Multi-Row Read for 1T1R RRAM Processing-in-Memory in 130\,nm SG13G2}
+
+\author{\IEEEauthorblockN{Eyal Yemini, Adi Teman and Leonid Yavits}
+\IEEEauthorblockA{Faculty of Engineering, Bar-Ilan University, Ramat Gan, Israel\\
+Eyal.yemini@live.biu.ac.il}}
+
+\maketitle
+
+\begin{abstract}
+A research chip's RRAM is characterized only after tape-out. A processing-in-memory (PiM) read
+designed for one operating point can therefore miss it. This paper presents a read path whose
+operating point is chosen after fabrication, and a method that turns its simulation into a
+budget for the device. The read path is part of a tape-out-ready 1T1R macro in IHP's 130\,nm
+SG13G2 process. Each column converts the bit-line discharge time into a thermometer code with a
+delay-line TDC, so opening several rows turns a read into an in-memory NOR or majority. A
+controller sets the converter's window, tap pitch and drive levels after fabrication.
+Transistor-level simulation with the extracted bit-line loading and the RRAM device capacitance
+gives each operation's margin, and a Monte Carlo converts it into the resistance spread it
+tolerates. The budget sets the device requirement: the single-row read works at IHP's median
+high-resistance state, and multi-row logic requires the deep-reset state with a verify-tight
+spread, both within the module's programming options. All results are pre-silicon.
+\end{abstract}
+
+\begin{IEEEkeywords}
+RRAM, 1T1R, processing-in-memory, time-domain readout, time-to-digital converter, IHP SG13G2.
+\end{IEEEkeywords}
+
+\input{sec1_intro}
+\input{sec2_macro}
+\input{sec3_ctrl}
+\input{sec4_results}
+\input{sec5_impl}
+\input{sec6_concl}
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}

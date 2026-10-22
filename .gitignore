@@ -1,0 +1,15 @@
+# symlink to 1t1r-exp/runs/pim (raw Spectre runs); every CSV the paper uses is copied to paper/results/
+sim_runs
+data/
+# downloaded IEEE template and the published artifact page
+template_dl/
+artifact/
+# build leftovers
+__pycache__/
+*.pyc
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.synctex.gz
