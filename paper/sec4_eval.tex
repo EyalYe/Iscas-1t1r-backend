@@ -15,7 +15,7 @@ This capacitance bypasses a selected cell with a time constant of 2\,ns at 200\,
 The level-shifting driver charges the loaded bit line slowly at $\Vd=0.8$\,V, where the default 10-cycle precharge leaves BL at 0.49\,V, so all runs precharge for 40 cycles (400\,ns).
 
 An access takes the precharge, the settle, the offset, and the READ pulse, about 0.45\,\si{\micro\second} for 64 decisions at 100\,MHz, and draws 8 to 13\,pJ per slice from the supply currents, or 64 to 107\,pJ per access scaled to the macro with the controller excluded (1.0 to 1.7\,pJ per 64-bit result).
-Of this, 53 to 69\,\% is the clock energy of the word-line flip-flops during the precharge and, at $\Vd=0.8$\,V, 21\,\% the static current of the bit-line buffers whose input sits at $\Vd$, while the discharge of the array and the delay line take 0.5 to 1.1\,pJ; a clock gate during the precharge would bring an access to 21 to 50\,pJ.
+Of this, 53 to 69\,\% is the clock energy of the word-line flip-flops during the precharge and, at $\Vd=0.8$\,V, 21 to 23\,\% the static current of the bit-line buffers whose input sits at $\Vd$, while the discharge of the array and the delay line take 0.5 to 1.1\,pJ; a clock gate during the precharge would bring an access to 21 to 50\,pJ.
 
 \subsection{Single-row read}
 \begin{table}[!t]
