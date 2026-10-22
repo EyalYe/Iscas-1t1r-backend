@@ -1,6 +1,5 @@
 \section{Conclusion}
 \label{sec:concl}
-The read circuit of an RRAM PiM array is designed against a model the fabricated cells do not follow, so this paper placed its operating point after fabrication: the discharge time becomes a code whose window registers and supply pads move, and several open rows turn the read into a NOR or majority.
-In a tape-out-ready 64$\times$64 1T1R macro with its extracted loading, the read separates a single row by eight taps and resolves an 8-row NOR by six taps and a majority by two, and re-tuning recovers the single-row read at every temperature and the 8-row NOR in the cold, where a fixed setting loses both.
+The read circuit of an RRAM PiM array is designed against a model the fabricated cells do not follow, so this paper placed its operating point after fabrication by turning the discharge time into a code whose window registers and supply pads move, with several open rows turning the read into a NOR or majority.
+In a tape-out-ready 64$\times$64 1T1R macro with its extracted loading, the read separates a single row by eight taps and resolves an 8-row NOR by six taps and a majority by two, and re-tuning recovers the 8-row NOR at $-40$\,\si{\celsius}, where a fixed setting loses it.
 The same simulation yields the budget the device has to meet, a resistance spread of 0.45 for a single row and 0.17 for eight rows at the characterized high-resistance state, or 0.5 with a deeper reset, which is the first quantity to measure on silicon.
-A read that is tuned rather than assumed survives the one thing a research device is certain to do, which is to come back different from its model.

@@ -28,23 +28,23 @@ Of this, 53 to 69\,\% is the clock energy of the word-line flip-flops during the
 \end{table}
 At $\Vg=0.8$\,V the access transistor is in weak inversion and limits the cell current, in a DC sweep with 0.9\,V on BL, to 0.5 to 1.7\,\si{\micro\ampere} for 200 to 9\,k$\Omega$, so the 22:1 resistance ratio of the cells reaches the bit line as a current contrast of only 3.6:1 (2.5:1 fitted to the transients), which a higher word line raises by only 30 to 45\,\%.
 Even so, a single row separates HRS from LRS by the full eight taps (Table~\ref{tab:pim}).
-With all supplies at 0.8\,V the 200\,k$\Omega$ cell crosses the buffer threshold 50.7\,ns after the drain step and the LRS cell after 28.2\,ns, a window at a +20\,ns offset lies between them, and the cell sees at most 0.09\,V and 1.3\,\si{\micro\ampere}.
+With all supplies at 0.8\,V the 200\,k$\Omega$ cell crosses the buffer threshold 50.7\,ns after the drain step and the LRS cell after 28.2\,ns, a window at a +20\,ns offset lies between them, and during the read the HRS cell sees at most 0.09\,V while the LRS cell draws at most 1.3\,\si{\micro\ampere}.
 
 \subsection{Multi-row NOR and majority}
 \label{sec:pim}
 \begin{figure}[!t]
 \centering
-\includegraphics[width=\columnwidth]{grid}
+\includegraphics[width=0.86\columnwidth]{grid}
 \caption{8-row read with $k$ cells in the LRS, at 200\,k$\Omega$ and 1\,M$\Omega$ HRS: (a) bit-line crossing time, with the +10\,ns window shaded; (b) simulated TDC code.}
 \label{fig:pim}
 \end{figure}
 Because $\Vd$ stays at or below 1\,V, the settle cycle must ground SL (a controller bit) since with SL floating, charge sharing takes BL below the buffer threshold before READ.
 The full supply grid was simulated for both HRS values, the codes at every window position were computed from the simulated crossing times and the tap tables, and the best point of each operation was then simulated directly.
 Table~\ref{tab:pim} and Fig.~\ref{fig:pim} show these points; the computed codes are one tap conservative, so the 8-row NOR margin is six taps in the direct transient and five in the crossing-time model behind Fig.~\ref{fig:rows} and the temperature results.
-The single-row read runs at the supplies of the NOR row and differs only in the register offset (+30\,ns), while the majority needs $\Vd=1.0$\,V, so the supply pads, bench supplies on the test chip, are set per operation and a mixed instruction stream would group operations by supply or regulate the pads on chip.
+The single-row read uses the NOR supplies and differs only in the offset register (+30\,ns), whereas the majority needs $\Vd=1.0$\,V, so the pads (bench supplies on the test chip) are set per operation, and a mixed instruction stream would group operations by supply or regulate the pads on chip.
 
 At 200\,k$\Omega$ every multi-row operation is resolved at $\Vg=0.8$\,V and at no higher word-line voltage, because the current-limited cells stretch the all-HRS crossing to 21 to 27\,ns (Fig.~\ref{fig:pim}(a)), far enough for $\Vd$ to place the band against the window grid, whereas at $\Vg\ge0.9$\,V the band is shorter than the 10\,ns offset step and falls between window positions.
-At $\Vd=0.9$\,V the all-HRS crossing (23.9\,ns) lies inside the window and the $k=1$ crossing (22.9\,ns) before it, which gives the codes 7, 1, 0, \ldots\ of Fig.~\ref{fig:pim}(b) and a NOR margin of six taps, and the deep-reset 1\,M$\Omega$ reaches the full scale.
+At $\Vd=0.9$\,V the all-HRS crossing (23.9\,ns) lies inside the window and the $k=1$ crossing (22.9\,ns) at its first tap, which gives the codes 7, 1, 0, \ldots\ of Fig.~\ref{fig:pim}(b) and a NOR margin of six taps, and the deep-reset 1\,M$\Omega$ reaches the full scale.
 The majority is harder, because the step from $k$ to $k+1$ shrinks as $1/k^2$, so $c(4)-c(5)$ needs the window on the compressed part of the band; $\Vd=1.0$\,V moves it there and gives a majority by two taps, or four at 1\,M$\Omega$.
 The 10\,ns step, one clock period, is thus the main limitation of the design, since it caps both the row count and the hot-corner margins that follow.
 
@@ -52,7 +52,7 @@ The 10\,ns step, one clock period, is thus the main limitation of the design, si
 \label{sec:rows}
 \begin{figure}[!t]
 \centering
-\includegraphics[width=\columnwidth]{rows}
+\includegraphics[width=0.86\columnwidth]{rows}
 \caption{Rows per access: (a) best NOR and majority margin; (b) crossing-time step behind each decision against the tap pitch (shaded). Hollow markers: at the best 8-row supplies.}
 \label{fig:rows}
 \end{figure}
@@ -62,8 +62,8 @@ Every open row adds an HRS current against which one LRS cell must stand out, so
 From 16 rows on, the step at 200\,k$\Omega$ is at or below a tap pitch.
 One access therefore decides over at most eight rows at the characterized HRS, and a wider NOR is split into eight-row groups that the host combines.
 
-Over the five PSP corners and $-40$ to 125\,\si{\celsius}, with the cell resistances scaled by the measured temperature coefficients~\cite{zanotti2026model}, the all-HRS crossing of the 8-row read moves from 16\,ns (ff, 125\,\si{\celsius}) to 60\,ns (ss, $-40$\,\si{\celsius}) against the 10\,ns window step, and this is where the tunability matters.
-With the room-temperature setting held fixed, the single-row read keeps its eight taps everywhere but the 8-row operations are lost at both temperature extremes; re-searching the offset decides the single-row read in 14 of the 15 corner-temperature pairs, and re-tuning $\Vd$, $\Vg$, $\Vdel$, and the offset per temperature recovers the 8-row NOR at $-40$\,\si{\celsius} with five taps and the majority with two, the margins of 27\,\si{\celsius}, but not at 125\,\si{\celsius}, where the band is shorter than the step and one tap remains.
+Over the five PSP corners and $-40$ to 125\,\si{\celsius}, with the cell resistances scaled by the measured temperature coefficients~\cite{zanotti2026model}, the all-HRS crossing of the 8-row read moves from 16\,ns (ff, 125\,\si{\celsius}) to 60\,ns (ss, $-40$\,\si{\celsius}) against the 10\,ns window step.
+With the room-temperature setting held fixed, the single-row read keeps its eight taps everywhere but the 8-row operations are lost at both temperature extremes; re-searching the offset decides the single-row read in 14 of the 15 corner-temperature pairs, and re-tuning $\Vd$, $\Vg$, $\Vdel$, and the offset per temperature recovers the 8-row NOR at $-40$\,\si{\celsius} with five taps and the majority with two, but not at 125\,\si{\celsius}, where the band is shorter than the step and one tap remains.
 
 \subsection{Read disturb and the device budget}
 A read biases the selected cells in the RESET polarity, with BL high and SL grounded, so repeated reads push the cells toward the HRS.
@@ -72,7 +72,7 @@ On these devices $10^5$ pulses of 10\,\si{\micro\second} at 0.1 to 0.2\,V leave 
 
 The margins above hold at the typical corner with fixed resistances, and the final question is how much spread they tolerate.
 A Monte Carlo draws every open cell from a lognormal distribution ($\sigma_{\ln R}=0.1$ for the LRS, swept for the HRS) behind the 0.08\,M$\Omega$ access resistance of the weak-inversion transistor (a 3:1 contrast), interpolates the simulated crossing times in the summed conductance, and counts the errors of one column decision at an ideal threshold midway between the nominal sums ($10^5$ draws); 160 SPICE runs with drawn resistances reproduce its crossing-time spread.
-At a $10^{-3}$ error per decision the HRS spread is limited to 0.45 for a single row, 0.33 for two rows, and 0.17 for the 8-row NOR (0.24 for the majority), close to $0.46/\sqrt{n}$, the Gaussian-sum form in which each open HRS cell adds its own noise.
+At a $10^{-3}$ error per decision the HRS spread is limited to 0.45 for a single row, 0.33 for two rows, and 0.17 for the 8-row NOR (0.24 for the majority), close to $0.46/\sqrt{n}$, the Gaussian-sum form in which each open HRS cell adds its own noise; a $10^{-6}$ error rate tightens every limit by about 0.65$\times$.
 The module's HfAlO stack is that of IHP's 250\,nm arrays, where the verify-programmed HRS shows a spread of 0.5 with its conductive edge clipped by the verify at 40\,k$\Omega$~\cite{perez2017hfalo}; the Al-doped 130\,nm devices show 0.5 to 1 with a median of 90 to 220\,k$\Omega$ and the edge pinned at 50\,k$\Omega$~\cite{baroni2025aldoping}.
 The single-row read therefore sits at the edge of the characterized state, with the clipped edge in its favor, whereas the 8-row logic needs the deeper reset of the 1\,M$\Omega$ rows of Table~\ref{tab:pim}, which buys a full-scale 8-row NOR, a four-tap majority, and an 8-row spread limit of 0.5 (0.6 for the majority).
 A deeper reset, a tighter verify window, and fewer rows per access are the levers, and the first two are programming-time costs: a deeper reset takes more pulses of the incremental step pulse with verify algorithm (ISPVA), about twelve of 12\,\si{\micro\second}~\cite{perez2017hfalo}, and with Al doping leaves a quarter of the cells above 1\,M$\Omega$ at the read-current floor~\cite{baroni2025aldoping}.
@@ -83,9 +83,10 @@ A deeper reset, a tighter verify window, and fewer rows per access are the lever
 \caption{Comparison with RRAM and time-domain macros}
 \label{tab:prior}
 \scriptsize
-\setlength{\tabcolsep}{1.7pt}
+\setlength{\tabcolsep}{1.3pt}
 \input{tab_prior}
 \end{table}
-Table~\ref{tab:prior} places the read next to the silicon macros it draws on.
-Those macros are MAC engines, so the table compares structure rather than figures of merit, and against their reference-tracked or calibrated readouts this work trades throughput for a bitwise read of up to eight rows whose every timing and drive level is a register or a pad.
-The evaluation rests on a slice with resistor cells and one $C_\mathrm{MIM}$, the Monte Carlo varies the cell resistances only, and the disturb bound rests on SET-polarity data, so the HRS spread, the access-transistor mismatch, and the RESET-polarity disturb are the first quantities to measure on silicon, and a fractional-cycle offset is the first change for a second version.
+Table~\ref{tab:prior} places the read next to the silicon macros it draws on; they are MAC engines, so the table compares structure rather than figures of merit, and against their reference-tracked or calibrated readouts this work trades throughput for a bitwise read of up to eight rows whose every timing and drive level is a register or a pad.
+The closest prior art, a FeFET macro, also reads logic from a thermometer code but calibrates each delay element by reprogramming~\cite{mattar2025fefet}; here one shared window moves over the bit-line discharge, and the host search is a calibration run once per die and temperature point that needs no reference array.
+All knobs are global, so column-to-column offsets in bit-line load, buffer threshold, and access transistor remain; a 10\,mV buffer offset shifts the crossing time by 2.5\,\% at $\Vd=1.0$\,V, comparable to the 8-row majority step (0.4\,ns in 23\,ns), so a 64-column mismatch analysis is the next step.
+The evaluation rests on a slice with resistor cells and one $C_\mathrm{MIM}$, and the disturb bound rests on SET-polarity data, so the HRS spread, the access-transistor mismatch, and the RESET-polarity disturb are the first quantities to measure on silicon, and a fractional-cycle offset and a precharge clock gate are the first changes for a second version.

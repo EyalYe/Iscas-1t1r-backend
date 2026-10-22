@@ -75,3 +75,31 @@ All three agree the problem is real and well motivated, the writing is competent
 5. State tap pitch per V_DEL and the fixed latency, and define V_RRAM and I_cell in Table II.
 6. Replace Table IV with a baseline that is comparable, or at least add the structural columns the reviewers ask for.
 7. Define the remaining acronyms, fix the figure overlaps, and crop the Fig. 2(b) PDF.
+
+## Status after the revision of 22 Oct (evening)
+
+Eyal's commits of 22 Oct (up to "Energy: buffer static share") plus the merge of their separate PDF draft into the source address most of the list above. Table numbering below refers to the revised paper, where the operating-point table is Table I and the comparison table is Table II; the temperature table and the macro summary table were folded into the text.
+
+Done, with where it now lives:
+
+- Item 1, NOR margin: Section IV-C states that the computed codes are one tap conservative, so six taps is the direct transient and five is the crossing-time model behind Fig. 4 and the temperature results. The abstract, introduction, and conclusion quote six.
+- Item 2, spread claim: Section IV-E names both device populations (250 nm arrays, spread 0.5 with the edge clipped at 40 kOhm; Al-doped 130 nm, 0.5 to 1, median 90 to 220 kOhm, edge at 50 kOhm), places the single-row limit of 0.45 "at the edge of the characterized state", and gives the deep-reset limits (0.5 NOR, 0.6 majority). The abstract and introduction no longer claim the read "works at the characterized HRS".
+- Item 3, corners and temperature: Section IV-D now has the five PSP corners with the cells scaled by their measured temperature coefficients, the 16 ns (ff, 125 C) to 60 ns (ss, -40 C) band, the single-row read decided in 14 of 15 corner-temperature pairs after re-searching the offset, and the 8-row NOR recovered only at -40 C. The conclusion says so.
+- Item 4, energy: per 64-bit result (1.0 to 1.7 pJ), with the split into word-line clock (53 to 69 %), buffer static current (21 to 23 % at 0.8 V), and array plus delay line (0.5 to 1.1 pJ), the clock-gated estimate (21 to 50 pJ per access), and the reason for the 40-cycle precharge (the loaded bit line reaches 0.49 V after ten cycles at 0.8 V). The access time is stated with the throughput.
+- Item 5, Monte Carlo: lognormal cells (LRS sigma 0.1, HRS swept) behind the 0.08 MOhm access resistance, ideal midpoint threshold, 1e5 draws, error per column decision, 160 SPICE runs reproducing the crossing-time spread, the 1/sqrt(n) form named as a Gaussian sum, and the 1e-6 scaling (0.65x). Transistor mismatch is still not in the Monte Carlo; see below.
+- Item 6, tap pitch and latency: first tap 3.4 ns after the READ edge; pitch 0.35, 0.24, 0.18 ns at V_DEL = 0.8, 0.9, 1.0 V; window 2.5 to 1.3 ns; the window cannot be widened beyond about 5 ns because the line stops clocking the flip-flops below 0.7 V, which answers why the fractional-cycle offset is the fix.
+- Item 7, Table I bias pairs: the footnote defines V_RRAM and I_cell as the largest values over the row's runs, in different cells and at different instants, and IV-B says the HRS cell sees 0.09 V while the LRS cell draws 1.3 uA.
+- Item 8, comparison: Table II gained the 22 nm 8 Mb ReRAM time-domain macro (Hung et al., JSSC 2023) and the FeFET thermometer-code macro (Mattar et al.), with the [11] normalization explained in the footnote, and the metric is per 64-bit result. Section IV-F positions the work against the FeFET macro. A same-process voltage-mode sense amplifier baseline is still absent.
+- Item 9, implementation evidence: Section III states that in the AMS simulation the sequenced reads return the codes of the stimulus-driven runs. The area split table was removed, so the 77 % question is moot.
+- Item 10, terms: MEMRES expanded, LRS2 removed, ISPVA expanded correctly, settle-drain reworded as a controller bit, signed offset defined with its sign. PSP is named as the foundry transistor model. BLD and TS_LS appear only in the figures.
+- Two-reviewer items: the per-operation supply pads are explained in IV-C (bench supplies on the test chip, grouped by operation or regulated on chip); the global-knob limitation and a first-order buffer-offset estimate (2.5 % per 10 mV, comparable to the majority step) are in IV-F (the v3 markup dropped the per-column-threshold mitigation, since such thresholds cannot absorb offsets larger than the 1.2 ns window); Fig. 1(b) now shows the source line grounded as the rows open; Fig. 2(b) is a cropped PDF with no hidden text layer; Fig. 3 carries the 1 MOhm NOR point and its legend sits above the panels; the popcount sentence was removed and the eight-row grouping is now stated for NOR only; the majority tie rule for even n is stated.
+
+Still open:
+
+- A mismatch Monte Carlo over the access transistor, buffer, and delay line (all three reviewers). The paper now says this is the next step and gives the estimate; it does not do it.
+- A conventional sense-amplifier baseline on the same device and RC model (all three reviewers).
+- A C_MIM or HRS sweep that shows re-tuning recovering a margin a fixed design loses (reviewers A and B). The `cap_sensitivity` CSVs may cover the C_MIM part.
+- A single-row and NOR result near the 100 kOhm median and at the 50 kOhm edge (reviewer C).
+- Off-state leakage of the uninstantiated rows (reviewer B).
+- Mattar et al. is cited as arXiv:2504.03925 with a note that it is accepted to IEEE TCAS-I; replace with the journal reference by camera-ready, and confirm the two 2026 early-access references.
+- Figs. 3 and 4 are now at 86 % of the column width to fit four pages; check label legibility in print.

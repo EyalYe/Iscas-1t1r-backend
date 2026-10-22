@@ -27,8 +27,9 @@ eyal.yemini@live.biu.ac.il}}
 \begin{abstract}
 Resistive RAM (RRAM) turns a memory array into a computing element, because a read that opens several rows sums the conductances of the selected cells on the bit line.
 The circuit that resolves this sum is designed against a device model, yet the model captures neither the resistance spread of a programmed array nor the capacitance of the memory stack, so a read designed for one operating point can miss the point at which the fabricated cells sit.
-This paper presents a read path whose operating point is chosen after fabrication: each column converts the bit-line discharge time into a thermometer code, and the sampling window, tap pitch, and drive levels are set from registers and supply pads, so that opening several rows turns a read into an in-memory NOR or majority without a reference cell.
-In a tape-out-ready 64$\times$64 one-transistor-one-resistor macro, post-layout simulation resolves a single row by all eight taps, an 8-row NOR by six, and an 8-row majority by two, and a Monte Carlo analysis converts these margins into the resistance spread the device has to meet.
+This paper presents a read path whose operating point is chosen after fabrication.
+Each column converts the bit-line discharge time into a thermometer code, and the sampling window, tap pitch, and drive levels are set from registers and supply pads, so that opening several rows turns a read into an in-memory NOR or majority without a reference cell.
+In a tape-out-ready 64$\times$64 one-transistor-one-resistor macro, post-layout simulation resolves a single row by all eight taps, an 8-row NOR by six, and an 8-row majority by two, at 1.0 to 1.7\,pJ per 64-bit result, and a Monte Carlo analysis converts these margins into the resistance spread the device has to meet, 0.45 in $\ln R$ for a single row and 0.17 for eight.
 \end{abstract}
 
 \begin{IEEEkeywords}

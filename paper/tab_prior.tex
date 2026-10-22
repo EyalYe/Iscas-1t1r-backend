@@ -3,10 +3,12 @@
  & node & memory & readout & cells/access & reported metric\\
 \midrule
 \cite{chen2018rram65nm} & 65\,nm & 1\,Mb 1T1R & current SA, 3\,b & 9--25 & 14.8\,ns/cycle\\
-\cite{wan2022neurram} & 130\,nm & 3\,Mb 1T1R & ADC, calibrated & 256 & 43\,TOPS/W (1\,b)\\
+\cite{wan2022neurram} & 130\,nm & 3\,Mb 1T1R & ADC, calib.\ & 256 & 43\,TOPS/W (1\,b)\\
+\cite{hung2023rram} & 22\,nm & 8\,Mb ReRAM & time domain & -- & 21.6\,TOPS/W (8\,b)\\
 \cite{sayal2020timedomain} & 40\,nm & none on chip & counter TDC & 25--150, serial & 12.1\,TOPS/W\\
 \cite{xue2024tdcim} & 180\,nm & 8\,kb SRAM & counter TDC & 32 per chain & 0.3--0.8\,TOPS/W$^\mathrm{a}$\\
+\cite{mattar2025fefet} & 28\,nm & 3$\times$3 FeFET & 2-b TDC, calib.\ & 3 & 1887\,TOPS/W\\
 this work & 130\,nm & 4\,kb 1T1R & 8-tap TDC, tunable & $\le8$ & 1.0--1.7\,pJ/result$^\mathrm{b}$\\
 \bottomrule
-\multicolumn{6}{@{}p{\columnwidth}@{}}{\scriptsize $^\mathrm{a}$8$\times$8\,b at 1.2\,V; the title's 768--2124\,TOPS/W is normalized to 28\,nm and 1\,b. $^\mathrm{b}$per 64-bit result, 8$\times$8 slice post-layout SPICE, 0.45\,\si{\micro\second} per access; SA: sense amplifier.}\\
+\multicolumn{6}{@{}p{\columnwidth}@{}}{\scriptsize $^\mathrm{a}$8$\times$8\,b at 1.2\,V; the title's 768--2124\,TOPS/W is normalized to 28\,nm and 1\,b. $^\mathrm{b}$per 64-bit result, 8$\times$8 slice post-layout SPICE, 0.45\,\si{\micro\second} per access; SA: sense amplifier; --: not reported.}\\
 \end{tabular}
