@@ -1,0 +1,36 @@
+\section{Macro and Controller}
+\label{sec:impl}
+\begin{figure}[!t]
+\centering
+\includegraphics[height=1.85in]{macro_arch}\hfill
+\includegraphics[height=1.85in,trim=179.5pt 0 0 0,clip]{macro}
+\caption{(a) Macro and controller architecture. (b) Tape-out-ready layout, 226.5$\times$547.4\,\si{\micro\meter}.}
+\label{fig:macro}
+\end{figure}
+\begin{table}[!t]
+\centering
+\caption{Macro and controller summary}
+\label{tab:impl}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Technology & IHP SG13G2 130\,nm, back-end HfAlO MEMRES\\
+Array & 64$\times$64 1T1R, HV 300/450\,nm, pitch 2.26$\times$2.77\,\si{\micro\meter}\\
+Macro & 226.5$\times$547.4\,\si{\micro\meter}; 4096 MEMRES, 21\,930 MOS\\
+Area split & array 21\,\%, col.\ drivers 21\,\%, WL 12\,\%, TDC 23\,\%\\
+Controller & 21-state FSM, 12 ops, 1673 cells (0.025\,mm$^2$)\\
+Signoff & 100\,MHz (slow corner); DRC, antenna, and LVS clean\\
+Energy & 65--105\,pJ per 512-bit access (0.13--0.2\,pJ/bit), slice SPICE\\
+\bottomrule
+\end{tabular}
+\end{table}
+The read path is implemented in a 64$\times$64 1T1R macro in the IHP SG13G2 130\,nm BiCMOS process, whose back-end HfAlO RRAM module~\cite{perez2017hfalo} provides the memory devices (Fig.~\ref{fig:macro}, Table~\ref{tab:impl}).
+The array holds 4096 cells on a 2.26$\times$2.77\,\si{\micro\meter} pitch, each a high-voltage (HV) nMOS access transistor (W/L = 300/450\,nm) in series with a MEMRES device whose top electrode connects to the source line of its column (Fig.~\ref{fig:schematic}(a)).
+Each column has a tri-state level-shifting driver supplied from $\Vd$ that drives SL or BL high for the writes and for the read precharge, and two global HV switches ground all source lines or all bit lines.
+Each word line is driven through a pipeline flip-flop and a cross-coupled level shifter supplied from $\Vg$, so that an arbitrary 64-bit row mask written in one cycle opens any subset of rows in the next.
+The delay line is shared by all 64 columns and supplied from the $\Vdel$ pad, and the 512 sampled bits return as the result of an access.
+
+A 21-state finite-state machine (FSM) drives the macro with 12 operations, among them reads, SET, RESET, and mixed-polarity writes of a 64-bit word into the selected rows, a discharge-length test, and a sample capture that records sixteen codes along one discharge.
+A read precharges for a programmable number of cycles, opens the row mask for a settle time, and then applies the source-line ground and READ with the signed offset of Section~\ref{sec:read}.
+Eight 32-bit registers (control, row mask, data word, timings, status, and paged result) are written from a host over a serial link, and a host procedure searches $\Vg$, $\Vdel$, $\Vd$, the settle time, and the offset for the operating point that best separates the classes of each operation, which is the procedure Section~\ref{sec:eval} follows.
+The macro is full custom and the controller is synthesized and placed around it, the two are co-verified in analog/mixed-signal simulation of the controller RTL against the macro netlist, and the design signs off at 100\,MHz in the slow corner with clean DRC, antenna, and LVS.

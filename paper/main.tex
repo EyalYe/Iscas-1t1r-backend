@@ -16,7 +16,7 @@
 
 \begin{document}
 
-\title{A Post-Fabrication-Tunable Time-Domain Multi-Row Read for 1T1R RRAM Processing-in-Memory in 130\,nm SG13G2}
+\title{A Post-Fabrication-Tunable Time-Domain Multi-Row Read for RRAM Processing-in-Memory}
 
 \author{\IEEEauthorblockN{Eyal Yemini, Adam Teman, and Leonid Yavits}
 \IEEEauthorblockA{Faculty of Engineering, Bar-Ilan University, Ramat Gan, Israel\\
@@ -25,29 +25,23 @@ eyal.yemini@live.biu.ac.il}}
 \maketitle
 
 \begin{abstract}
-The RRAM of a research chip is characterized only after tape-out. A processing-in-memory (PiM) read
-designed for one operating point can therefore miss it. This paper presents a read path whose
-operating point is chosen after fabrication, and a method that turns its simulation into a
-budget for the device. The read path is part of a tape-out-ready 1T1R macro in the IHP 130\,nm
-SG13G2 process. Each column converts the bit-line discharge time into a thermometer code with a
-delay-line time-to-digital converter (TDC), so opening several rows turns a read into an in-memory NOR or majority. A controller sets the window, tap pitch, and drive levels of the converter after fabrication.
-Transistor-level simulation with the extracted bit-line loading and the RRAM device capacitance
-gives the margin of each operation, and a Monte Carlo analysis converts it into the resistance spread it
-tolerates. The budget sets the device requirement: the single-row read works at the median
-high-resistance state of the IHP module, and multi-row logic requires the deep-reset state with a verify-tight
-spread, both within the programming options of the module. All results are pre-silicon.
+Resistive RAM (RRAM) turns a memory array into a computing element, because a read that opens several rows sums the conductances of the selected cells on the bit line.
+The circuit that resolves this sum is designed against a device model, yet the compact models of RRAM processes capture neither the resistance spread of a programmed array nor the capacitance of the memory stack, so a read designed for one assumed operating point can miss the point at which the fabricated cells actually sit.
+This paper presents a read path whose operating point is chosen after fabrication.
+Each column converts the bit-line discharge time into a thermometer code with a delay-line time-to-digital converter, and the sampling window, tap pitch, and drive levels are set from registers and supply pads, so that opening several rows turns a read into an in-memory NOR or majority without a reference cell.
+The read path and its controller are implemented in a tape-out-ready 64$\times$64 one-transistor-one-resistor macro.
+Post-layout simulation with the extracted bit-line loading separates a single row by all eight taps and resolves an 8-row NOR by six taps and an 8-row majority by two, at 0.13 to 0.2\,pJ per bit, and a Monte Carlo analysis converts these margins into the resistance spread the device has to meet, which the single-row read satisfies at the characterized high-resistance state and the multi-row logic reaches with a deeper reset.
 \end{abstract}
 
 \begin{IEEEkeywords}
-RRAM, 1T1R, processing-in-memory, time-domain readout, time-to-digital converter, IHP SG13G2.
+RRAM, 1T1R, processing-in-memory, time-domain readout, time-to-digital converter.
 \end{IEEEkeywords}
 
 \input{sec1_intro}
-\input{sec2_macro}
-\input{sec3_ctrl}
-\input{sec4_results}
-
-\input{sec6_concl}
+\input{sec2_read}
+\input{sec3_impl}
+\input{sec4_eval}
+\input{sec5_concl}
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}

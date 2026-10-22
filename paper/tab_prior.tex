@@ -1,12 +1,12 @@
 \begin{tabular}{@{}llllll@{}}
 \toprule
- & node & memory & readout & summed$^\mathrm{a}$ & reported metric$^\mathrm{f}$\\
+ & node & memory & readout & summed$^\mathrm{a}$ & reported metric\\
 \midrule
-\cite{chen2018rram65nm} & 65\,nm & 1\,Mb 1T1R & current SA$^\mathrm{g}$, 3\,b & 9--25 & 14.8\,ns/cycle$^\mathrm{h}$\\
-\cite{wan2022neurram} & 130\,nm & 3\,Mb 1T1R & neuron ADC$^\mathrm{b}$ & 256 & 43\,TOPS/W (1\,b)\\
-\cite{sayal2020timedomain} & 40\,nm & delay lines only & counter TDC & 25--150, serial & 12.1\,TOPS/W$^\mathrm{c}$\\
-\cite{xue2024tdcim} & 180\,nm & 8\,kb SRAM & counter TDC & 32 per chain & 0.3--0.8\,TOPS/W$^\mathrm{d}$\\
-this work$^\mathrm{e}$ & 130\,nm & 4\,kb 1T1R & 8-tap TDC & $\le8$ & 0.13--0.2\,pJ/bit\\
+\cite{chen2018rram65nm} & 65\,nm & 1\,Mb 1T1R & current SA, 3\,b & 9--25 & 14.8\,ns/cycle\\
+\cite{wan2022neurram} & 130\,nm & 3\,Mb 1T1R & ADC, calibrated & 256 & 43\,TOPS/W (1\,b)\\
+\cite{sayal2020timedomain} & 40\,nm & none on chip & counter TDC & 25--150, serial & 12.1\,TOPS/W\\
+\cite{xue2024tdcim} & 180\,nm & 8\,kb SRAM & counter TDC & 32 per chain & 0.3--0.8\,TOPS/W$^\mathrm{b}$\\
+this work & 130\,nm & 4\,kb 1T1R & 8-tap TDC, tunable & $\le8$ & 0.13--0.2\,pJ/bit$^\mathrm{c}$\\
 \bottomrule
-\multicolumn{6}{@{}p{\columnwidth}@{}}{\scriptsize All but this work are measured silicon MAC macros. $^\mathrm{a}$cells sensed in one access. $^\mathrm{b}$per-layer calibrated. $^\mathrm{c}$compute only, no memory on chip. $^\mathrm{d}$8$\times$8\,b at 1.2\,V; 768--2124\,TOPS/W is normalized to 28\,nm, 1\,b. $^\mathrm{e}$tape-out-ready layout, slice SPICE, 0.45\,\si{\micro\second} per access. $^\mathrm{f}$the figure each work reports; MAC metrics are not comparable with a bitwise read, the table compares structure. $^\mathrm{g}$sense amplifier. $^\mathrm{h}$energy efficiency not reported.}\\
+\multicolumn{6}{@{}p{\columnwidth}@{}}{\scriptsize $^\mathrm{a}$cells sensed in one access; $^\mathrm{b}$8$\times$8\,b at 1.2\,V; $^\mathrm{c}$slice SPICE, 0.45\,\si{\micro\second} per access; SA: sense amplifier.}\\
 \end{tabular}

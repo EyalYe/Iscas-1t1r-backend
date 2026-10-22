@@ -2,10 +2,10 @@
 the functional blocks outlined (block boxes from the top-level instance placements)."""
 import sys
 from pathlib import Path
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, Rectangle
 from matplotlib.collections import PolyCollection
-import gdstk
 import style as S
 
 GDS = S.BACKEND / "macros/memory_1T1R/memory_1T1R.gds"
@@ -76,6 +76,7 @@ def arch(ax):
 
 
 def layout(ax):
+    import gdstk  # only the layout panel needs it
     lib = gdstk.read_gds(str(GDS))
     top = lib.top_level()[0]
     (x0, y0), (x1, y1) = top.bounding_box()
@@ -118,6 +119,17 @@ def layout(ax):
 
 def main():
     S.setup()
+    if "--arch" in sys.argv:            # Fig. 1(a) alone, sans-serif (paper since 22.10.26; (b) is clipped from macro.pdf)
+        mpl.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
+                             "mathtext.fontset": "custom", "mathtext.rm": "Arial", "mathtext.it": "Arial:italic"})
+        fig = plt.figure(figsize=(0.655 * S.COL_W, 2.2))
+        ax1 = fig.add_axes([0.05, 0.0, 0.95, 0.955])
+        arch(ax1)
+        for t in ax1.texts:               # Arial runs wider than Times: scale every label down
+            t.set_fontsize(t.get_fontsize() * 0.84)
+        fig.text(0.0, 0.995, "(a)", fontsize=8, weight="bold", va="top")
+        S.save(fig, "macro_arch")
+        return
     if "--layout" in sys.argv:          # full-width two-panel version (not in the paper)
         fig = plt.figure(figsize=(S.PAGE_W, 2.55))
         ax1 = fig.add_axes([0.03, 0.0, 0.66, 0.96])

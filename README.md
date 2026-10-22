@@ -11,7 +11,7 @@
 
 Rebuild: `cd paper && ./build.sh` (tectonic in ~/.local/bin; any TeX Live/Overleaf works too).
 Figures: run `scripts/fig_*.py` with `~/.local/venvs/paper/bin/python` (needs matplotlib, gdstk, pymupdf):
-Fig. 1 = fig_macro.py (`--layout` adds the GDS render, not in the paper), Fig. 2 = fig_schematic.py, Fig. 3 and Table III = fig_grid.py, Fig. 4 = fig_rows.py; fig_read2.py drew the single-row figure of earlier drafts.
+Fig. 1 = fig_schematic.py, Fig. 2(a) = fig_macro.py --arch (sans-serif; (b) is clipped from the older macro.pdf in LaTeX, regenerate it with fig_macro.py and the GDS), Fig. 3 and Table II = fig_grid.py, Fig. 4 = fig_rows.py; fig_read2.py drew the single-row figure of earlier drafts.
 `backup_results.py` refreshes paper/results/.
 Limits (ISCAS 2027): 4 pages of content + 1 optional page of references only; not double-blind;
 deadline 22 Oct 2026 23:59 UTC-5.

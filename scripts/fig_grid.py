@@ -70,7 +70,7 @@ CONF = [  # tag, label, colour, marker, line style
 def main():
     S.setup()
     rows = grid_rows()
-    fig, axs = plt.subplots(1, 2, figsize=(S.COL_W, 1.7), gridspec_kw=dict(width_ratios=[1.15, 1.0]))
+    fig, axs = plt.subplots(1, 2, figsize=(S.COL_W, 1.55), gridspec_kw=dict(width_ratios=[1.15, 1.0]))
     ax, bx = axs
     ks = list(range(9))
     for tag, lab, c, m, ls in CONF:

@@ -1,0 +1,6 @@
+\section{Conclusion}
+\label{sec:concl}
+This paper set out from the observation that the read circuit of an RRAM PiM array is designed against a model that the fabricated cells do not follow, and proposed a read whose operating point is chosen after fabrication instead.
+Converting the bit-line discharge time into a thermometer code puts the decision into a window that registers and supply pads can move, and opening several rows turns the same read into an in-memory NOR or majority.
+Implemented in a tape-out-ready 64$\times$64 1T1R macro and simulated with the extracted loading of its bit lines, the read separates a single row by eight taps and resolves an 8-row NOR by six taps and a majority by two, and re-tuning restores these margins across temperature where a fixed setting loses them.
+The same simulation yields the budget that the device has to meet, a resistance spread of 0.46 for a single row and 0.16 for eight rows at the characterized high-resistance state, or 0.5 with a deeper reset, so that spread is the first quantity to measure on silicon.
