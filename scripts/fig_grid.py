@@ -71,7 +71,7 @@ CONF = [  # tag, label, colour, marker, line style
 def main():
     S.setup()
     rows = grid_rows()
-    fig, axs = plt.subplots(1, 2, figsize=(S.COL_W, 1.45), gridspec_kw=dict(width_ratios=[1.15, 1.0]))
+    fig, axs = plt.subplots(1, 2, figsize=(S.COL_W, 1.5), gridspec_kw=dict(width_ratios=[1.15, 1.0]))
     ax, bx = axs
     ks = list(range(9))
     for tag, lab, c, m, ls in CONF:
@@ -83,9 +83,10 @@ def main():
     ax.text(8.2, 20 + t[-1] + 0.3, "window +10 ns", fontsize=5.2, color=S.INK2, ha="right", va="bottom")
     ax.set_xlabel(r"LRS cells $k$ of 8 open rows")
     ax.set_ylabel("BL crossing time (ns)")
-    ax.set_xticks(range(0, 9, 2)), ax.set_ylim(17, 48)
-    ax.legend(loc="upper right", fontsize=5.0, handlelength=1.8, borderaxespad=0.2, title=r"HRS, $V_\mathrm{drain}/V_\mathrm{gate}$",
-              title_fontsize=5.2)
+    ax.set_xticks(range(0, 9, 2)), ax.set_ylim(17, 42)
+    h, l = ax.get_legend_handles_labels()
+    fig.legend(h, l, loc="upper center", ncol=4, fontsize=4.8, handlelength=1.6, columnspacing=0.8, frameon=False,
+               bbox_to_anchor=(0.5, 1.0), title=r"HRS, $V_\mathrm{drain}/V_\mathrm{gate}$", title_fontsize=4.8)
     ax.set_title("(a)", loc="left", x=-0.22, fontsize=8, weight="bold")
     bx.axvline(4.5, color=S.INK2, lw=0.6, ls=(0, (1, 1.5)))
     bx.text(4.6, 1.4, "maj.", fontsize=5.2, color=S.INK2, va="top")
@@ -93,7 +94,7 @@ def main():
     bx.set_ylabel("TDC code (taps high)")
     bx.set_ylim(-0.5, 8.8), bx.set_yticks(range(0, 9, 2)), bx.set_xticks(range(0, 9, 2))   # legend shared with (a)
     bx.set_title("(b)", loc="left", x=-0.25, fontsize=8, weight="bold")
-    fig.tight_layout(w_pad=0.8)
+    fig.tight_layout(w_pad=0.8, rect=(0, 0, 1, 0.84))
     S.save(fig, "grid")
 
     # Table I: best point per operation, simulated codes (gcf_*)
@@ -120,7 +121,7 @@ def main():
             codes, m = " ".join(map(str, c)), f"{len(set(c))} codes"
         L.append(f"{op} & {rh} & {sup} & {off} & {codes} & {m} & {vr:.2f}/{ic:.1f}\\\\")
     L += [r"\midrule",
-          r"\multicolumn{7}{@{}l}{direct transients, $C_\mathrm{MIM}=10$\,fF, extracted line capacitance; $^\dagger$deep-reset state; $V_\mathrm{RRAM}$, $I_\mathrm{cell}$: largest cell voltage and current over the row's runs (different cells and instants)}\\",
+          r"\multicolumn{7}{@{}p{\columnwidth}@{}}{direct transients, $C_\mathrm{MIM}=10$\,fF, extracted lines. $^\dagger$deep-reset state. $V_\mathrm{RRAM}$, $I_\mathrm{cell}$: largest cell voltage and current over the row's runs, in different cells and at different instants.}\\",
           r"\bottomrule", r"\end{tabular}"]
     (Path(__file__).resolve().parent.parent / "paper" / "tab_pim.tex").write_text("\n".join(L) + "\n")
     print("\n".join(L[5:-4]))

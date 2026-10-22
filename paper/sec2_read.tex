@@ -6,8 +6,7 @@
 \caption{(a) One column of the macro with its TDC. (b) Read sequence: the source line is grounded as the rows open, and the eight-tap window (shaded) samples the discharge after the offset.}
 \label{fig:schematic}
 \end{figure}
-Fig.~\ref{fig:schematic} shows the read built for cells whose operating point the model cannot predict.
-A conventional sense amplifier asks whether the bit line is above or below a reference at one instant, whereas this read asks how long the bit line takes to discharge.
+A conventional sense amplifier asks whether the bit line is above or below a reference at one instant, whereas the read of Fig.~\ref{fig:schematic} asks how long the bit line takes to discharge.
 A read precharges the bit line BL to the drive voltage $\Vd$, grounds the source line SL and opens the selected rows, so that BL discharges through the selected cells with a time constant set by the cell resistance, the access-transistor resistance, and the bit-line capacitance.
 A buffer with a threshold of about 0.6\,V converts BL into a digital signal, and eight flip-flops sample this signal on the eight taps of a delay line that a READ pulse triggers.
 The result is a thermometer code that counts the taps at which BL was still high, so that a low-resistance (LRS) cell gives a short code and a high-resistance (HRS) cell a long one (Fig.~\ref{fig:schematic}(b)).
