@@ -66,7 +66,8 @@ def arch(ax):
     arrow(ax, (1.65, 1.6), (1.65, 1.45))
     arrow(ax, (1.65, 1.15), (1.65, 0.95))
     arrow(ax, (3.3, 0.57), (3.05, 0.57))
-    arrow(ax, (4.38, 4.45), (4.38, 0.95))
+    ax.plot([4.38, 4.38], [4.45, 0.57], color=S.INK2, lw=LW)          # READ: down the margin, then into the READ LS box
+    arrow(ax, (4.38, 0.57), (4.15, 0.57))
     ax.text(4.42, 3.3, "READ", fontsize=5.2, color=S.INK2, rotation=90, va="center", ha="left")
     ax.annotate("", xy=(0.12, 4.45), xytext=(0.12, 0.57),
                 arrowprops=dict(arrowstyle="-|>", lw=LW, color=S.AQUA, shrinkA=0, shrinkB=0, mutation_scale=5,
@@ -123,7 +124,7 @@ def main():
     if "--arch" in sys.argv:            # Fig. 1(a) alone, sans-serif (paper since 22.10.26; (b) is clipped from macro.pdf)
         mpl.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
                              "mathtext.fontset": "custom", "mathtext.rm": "Arial", "mathtext.it": "Arial:italic"})
-        fig = plt.figure(figsize=(0.655 * S.COL_W, 2.2))
+        fig = plt.figure(figsize=(0.77 * S.COL_W, 2.2))
         ax1 = fig.add_axes([0.05, 0.0, 0.95, 0.955])
         arch(ax1)
         for t in ax1.texts:               # Arial runs wider than Times: scale every label down
