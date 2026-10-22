@@ -63,14 +63,15 @@ def heat(ax, rows, key, rh, title, vmax=8):
 CONF = [  # tag, label, colour, marker, line style
     ("gcf_nor_200k", r"200 k$\Omega$, 0.9/0.8 V", S.BLUE, "s", "-"),
     ("gcf_maj_200k", r"200 k$\Omega$, 1.0/0.8 V", S.BLUE, "o", (0, (3, 1.5))),
-    ("gcf_maj_1M", r"1 M$\Omega$ (ideal), 1.0/0.8 V", S.ORANGE, "D", "-"),
+    ("gcf_nor_1M", r"1 M$\Omega$ (deep reset), 0.8/0.8 V", S.ORANGE, "^", (0, (3, 1.5))),
+    ("gcf_maj_1M", r"1 M$\Omega$ (deep reset), 1.0/0.8 V", S.ORANGE, "D", "-"),
 ]
 
 
 def main():
     S.setup()
     rows = grid_rows()
-    fig, axs = plt.subplots(1, 2, figsize=(S.COL_W, 1.55), gridspec_kw=dict(width_ratios=[1.15, 1.0]))
+    fig, axs = plt.subplots(1, 2, figsize=(S.COL_W, 1.45), gridspec_kw=dict(width_ratios=[1.15, 1.0]))
     ax, bx = axs
     ks = list(range(9))
     for tag, lab, c, m, ls in CONF:
@@ -82,7 +83,7 @@ def main():
     ax.text(8.2, 20 + t[-1] + 0.3, "window +10 ns", fontsize=5.2, color=S.INK2, ha="right", va="bottom")
     ax.set_xlabel(r"LRS cells $k$ of 8 open rows")
     ax.set_ylabel("BL crossing time (ns)")
-    ax.set_xticks(range(0, 9, 2))
+    ax.set_xticks(range(0, 9, 2)), ax.set_ylim(17, 48)
     ax.legend(loc="upper right", fontsize=5.0, handlelength=1.8, borderaxespad=0.2, title=r"HRS, $V_\mathrm{drain}/V_\mathrm{gate}$",
               title_fontsize=5.2)
     ax.set_title("(a)", loc="left", x=-0.22, fontsize=8, weight="bold")
@@ -90,8 +91,7 @@ def main():
     bx.text(4.6, 1.4, "maj.", fontsize=5.2, color=S.INK2, va="top")
     bx.set_xlabel(r"LRS cells $k$")
     bx.set_ylabel("TDC code (taps high)")
-    bx.set_ylim(-0.5, 12.5), bx.set_yticks(range(0, 9, 2)), bx.set_xticks(range(0, 9, 2))
-    bx.legend(loc="upper right", fontsize=5.0, handlelength=1.8, borderaxespad=0.2)
+    bx.set_ylim(-0.5, 8.8), bx.set_yticks(range(0, 9, 2)), bx.set_xticks(range(0, 9, 2))   # legend shared with (a)
     bx.set_title("(b)", loc="left", x=-0.25, fontsize=8, weight="bold")
     fig.tight_layout(w_pad=0.8)
     S.save(fig, "grid")
@@ -120,7 +120,7 @@ def main():
             codes, m = " ".join(map(str, c)), f"{len(set(c))} codes"
         L.append(f"{op} & {rh} & {sup} & {off} & {codes} & {m} & {vr:.2f}/{ic:.1f}\\\\")
     L += [r"\midrule",
-          r"\multicolumn{7}{@{}l}{direct transients, $C_\mathrm{MIM}=10$\,fF, extracted line capacitance; $^\dagger$ideal HRS}\\",
+          r"\multicolumn{7}{@{}l}{direct transients, $C_\mathrm{MIM}=10$\,fF, extracted line capacitance; $^\dagger$deep-reset state; $V_\mathrm{RRAM}$, $I_\mathrm{cell}$: largest cell voltage and current over the row's runs (different cells and instants)}\\",
           r"\bottomrule", r"\end{tabular}"]
     (Path(__file__).resolve().parent.parent / "paper" / "tab_pim.tex").write_text("\n".join(L) + "\n")
     print("\n".join(L[5:-4]))

@@ -58,7 +58,7 @@ def separations():
 def main():
     S.setup()
     m, sep = summary(), separations()
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(S.COL_W, 1.75))
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(S.COL_W, 1.45))
     for op, olab, c in OPS:
         for rh, rlab, ls, mk in HRS:
             ns = [n for n in NS if (op, rh, n) in m]

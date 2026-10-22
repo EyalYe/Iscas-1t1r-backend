@@ -7,12 +7,13 @@ Silicon demonstrations of this processing-in-memory (PiM) have relied on dedicat
 
 Every one of these read circuits is designed against a device model, and this is where RRAM departs from a mature memory.
 The compact model of an RRAM module is fitted to a few programmed states, and it captures neither the resistance spread of a verify-programmed array nor the capacitance of the memory stack itself, while the fabricated arrays differ from the model, and from one another, in both.
-A reference-tracked sense amplifier absorbs part of this uncertainty by comparing against reference cells, but those cells are programmed with the same uncertain device, and a calibration loop costs area and design time and still has to be designed before the devices are characterized.
+On the HfAlO module used here, the high-resistance state lands anywhere between 60 and 220\,k$\Omega$ depending on the reset verify, its spread across devices is 0.5 to 1 in $\ln R$~\cite{perez2017hfalo,baroni2025aldoping}, and the 22:1 window between the two states reaches the bit line as a 3.6:1 current contrast once the access transistor sits in series (Section~\ref{sec:eval}).
+A reference-tracked sense amplifier compares against reference cells programmed with the same uncertain device, and a calibration loop still has to be designed before the devices are characterized.
 What remains open is a read whose decision point does not come from the model at all, but is placed after the fabricated cells have been measured.
 
 This work proposes a time-domain read with exactly that property.
 Instead of a voltage-mode sense amplifier, every column converts the time the bit line takes to discharge through the selected cells into a thermometer code with an eight-tap delay-line TDC, and the sampling window, the tap pitch, and the drive levels are set by registers and supply pads rather than by transistor sizing.
-Because the decision is a threshold on a code, opening several rows turns the same read into an in-memory NOR or majority, which is the bitwise primitive that digital PiM builds on.
+Because the decision is a threshold on a code, opening several rows turns the same read into an in-memory NOR or majority.
 The read path and its controller are implemented in a tape-out-ready 64$\times$64 1T1R macro.
-Post-layout simulation with the extracted bit-line loading separates a single row by all eight taps, resolves an 8-row NOR by six taps and an 8-row majority by two, and costs 0.13 to 0.2\,pJ per result bit with the cells biased below the read-disturb condition of the device.
-A Monte Carlo analysis on these margins then turns the evaluation into a budget for the device, namely the resistance spread each operation tolerates, which the single-row read meets at the characterized high-resistance state and the multi-row logic meets with a deeper reset.
+Post-layout simulation with the extracted bit-line loading separates a single row by all eight taps and resolves an 8-row NOR by six taps and an 8-row majority by two, with the cells biased below the 0.2\,V read condition of the device, and an access returns 64 decisions in 0.45\,\si{\micro\second} for 64 to 107\,pJ.
+A Monte Carlo analysis on these margins then turns the evaluation into a budget for the device, namely the resistance spread each operation tolerates, which the single-row read meets at the edge of the characterized high-resistance state and the multi-row logic meets with a deeper reset.

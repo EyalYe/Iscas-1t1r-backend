@@ -1,19 +1,21 @@
 \section{Evaluation}
 \label{sec:eval}
 \subsection{Simulation setup}
-The read is evaluated on an 8$\times$8 slice of the layout netlist of the macro, with its drivers, word-line flip-flops and level shifters, drain switches, delay line, and TDC flip-flops, simulated with the foundry PSP models at the typical corner; process corners and temperature follow in Section~\ref{sec:rows}.
-The cells are linear resistors, 9\,k$\Omega$ for the LRS and 200\,k$\Omega$ for the HRS, the top of the range IHP has characterized (1\,\si{\micro\ampere} at 0.2\,V), with 1\,M$\Omega$ added as an ideal case that a deeper reset would approach.
+The read is evaluated on an 8$\times$8 slice of the layout netlist of the macro, with its drivers, word-line flip-flops and level shifters, drain switches, delay line, and TDC flip-flops.
+The slice is simulated with the foundry's PSP transistor models at the typical corner; process corners and temperature follow in Section~\ref{sec:rows}.
+The cells are linear resistors, 9\,k$\Omega$ for the LRS and 200\,k$\Omega$ for the HRS, the top of the range IHP has characterized (1\,\si{\micro\ampere} at 0.2\,V), with 1\,M$\Omega$ added as the deep-reset state that a stronger reset verify would approach.
 At the 0.06 to 0.12\,V the read places across a cell, the HRS non-linearity of these devices raises $R$ by about 10\,\% over its 0.2\,V value and the LRS is ohmic~\cite{zanotti2026model}, and at the two states the IHP compact model can produce (1.4 and 12\,k$\Omega$) it reproduces the crossing times of the resistor runs within 0.06\,ns.
 The supplies are confined to $\Vd,\Vg,\Vdel\in\{0.8,0.9,1.0\}$\,V so that a read never approaches a write condition.
 
 A resistor cell omits two capacitances that set the discharge, and both are added explicitly.
-The first is the line loading, for which an RC extraction of the full macro (21\,930 transistors and 4096 MEMRES devices) gives 47 to 62\,fF of interconnect on each bit line and 21 to 36\,fF on each source line, so the slice adds 70\,fF to BL and 30\,fF to SL for the wire and the source junctions of the 56 rows it does not instantiate.
+The first is the line loading, for which an RC extraction of the full macro gives 47 to 62\,fF of interconnect on each bit line and 21 to 36\,fF on each source line, so the slice adds 70\,fF to BL and 30\,fF to SL for the wire and source junctions of the 56 rows it does not instantiate.
 The second is the MEMRES stack itself, a metal-insulator-metal capacitor that neither the compact model nor the extraction contains.
-For its design-rule area of 0.36\,\si{\micro\meter\squared}, 6\,nm of HfAlO, and $\varepsilon_\mathrm{r}=12$ to 20, a Sentaurus solution of the drawn stack gives $C_\mathrm{MIM}=6.8$ to 11.0\,fF per cell, and all results use 10\,fF.
-This capacitance bypasses a selected cell with a time constant of 2\,ns at 200\,k$\Omega$ and 10\,ns at 1\,M$\Omega$, which is the scale of the differences the read resolves, and the line loading doubles every crossing time, so that all runs precharge for 40 cycles (400\,ns).
+A Sentaurus solution of the drawn stack (0.36\,\si{\micro\meter\squared}, 6\,nm of HfAlO, $\varepsilon_\mathrm{r}=12$ to 20) gives $C_\mathrm{MIM}=6.8$ to 11.0\,fF per cell, and all results use 10\,fF.
+This capacitance bypasses a selected cell with a time constant of 2\,ns at 200\,k$\Omega$ and 10\,ns at 1\,M$\Omega$, the scale of the differences the read resolves.
+The level-shifting driver charges the loaded bit line slowly at $\Vd=0.8$\,V, where the default 10-cycle precharge leaves BL at 0.49\,V, so all runs precharge for 40 cycles (400\,ns).
 
-An access takes the precharge, the settle, the offset, and the READ pulse, about 0.45\,\si{\micro\second} for 512 result bits at 100\,MHz, and costs 8 to 13\,pJ per slice from the supply currents, or 65 to 105\,pJ per access scaled to the macro with the controller excluded (0.13 to 0.2\,pJ per bit).
-Of this, 90\,\% is the clock energy of the word-line flip-flops, which toggle every cycle during the long precharge, so a clock gate during precharge would remove most of it, while the read path itself takes below 0.3\,pJ.
+An access takes the precharge, the settle, the offset, and the READ pulse, about 0.45\,\si{\micro\second} for 64 decisions at 100\,MHz, and draws 8 to 13\,pJ per slice from the supply currents, or 64 to 107\,pJ per access scaled to the macro with the controller excluded (1.0 to 1.7\,pJ per 64-bit result).
+Of this, 53 to 69\,\% is the clock energy of the word-line flip-flops during the precharge and, at $\Vd=0.8$\,V, 21\,\% the static current of the bit-line buffers whose input sits at $\Vd$, while the discharge of the array and the delay line take 0.5 to 1.1\,pJ; a clock gate during the precharge would bring an access to 21 to 50\,pJ.
 
 \subsection{Single-row read}
 \begin{table}[!t]
@@ -24,9 +26,9 @@ Of this, 90\,\% is the clock energy of the word-line flip-flops, which toggle ev
 \setlength{\tabcolsep}{1.6pt}
 \input{tab_pim}
 \end{table}
-At $\Vg=0.8$\,V the access transistor is in weak inversion and limits the cell current to 0.5 to 1.7\,\si{\micro\ampere} (for 200 to 9\,k$\Omega$ with 0.9\,V on BL), so the 22:1 resistance ratio of the cells reaches the bit line as a current contrast of only 3 to 3.6:1.
+At $\Vg=0.8$\,V the access transistor is in weak inversion and limits the cell current, in a DC sweep with 0.9\,V on BL, to 0.5 to 1.7\,\si{\micro\ampere} for 200 to 9\,k$\Omega$, so the 22:1 resistance ratio of the cells reaches the bit line as a current contrast of only 3.6:1 (2.5:1 fitted to the transients).
 Even so, a single row separates HRS from LRS by the full eight taps (Table~\ref{tab:pim}).
-With all supplies at 0.8\,V the 200\,k$\Omega$ cell crosses the buffer threshold 50.7\,ns after the source line is grounded and the LRS cell after 28.2\,ns, a window at a +20\,ns offset lies between them, and the cell sees 0.09\,V and 1.3\,\si{\micro\ampere} during the read.
+With all supplies at 0.8\,V the 200\,k$\Omega$ cell crosses the buffer threshold 50.7\,ns after the drain step and the LRS cell after 28.2\,ns, a window at a +20\,ns offset lies between them, and the cell sees at most 0.09\,V and 1.3\,\si{\micro\ampere}.
 
 \subsection{Multi-row NOR and majority}
 \label{sec:pim}
@@ -36,33 +38,17 @@ With all supplies at 0.8\,V the 200\,k$\Omega$ cell crosses the buffer threshold
 \caption{8-row read with $k$ cells in the LRS, at 200\,k$\Omega$ and 1\,M$\Omega$ HRS: (a) bit-line crossing time, with the +10\,ns window shaded; (b) simulated TDC code.}
 \label{fig:pim}
 \end{figure}
-Because $\Vd$ stays at or below 1\,V, the settle cycle must ground SL (the settle-drain bit of the controller), since with SL floating, charge sharing takes BL below the buffer threshold before READ.
-The full supply grid was simulated for both HRS values, the codes at every window position were computed from the simulated crossing times and tap tables, and the best point of each operation was then simulated directly.
-Table~\ref{tab:pim} lists these points and Fig.~\ref{fig:pim} shows the crossing times and codes behind them.
+Because $\Vd$ stays at or below 1\,V, the settle cycle must ground SL (a controller bit) since with SL floating, charge sharing takes BL below the buffer threshold before READ.
+The full supply grid was simulated for both HRS values, the codes at every window position were computed from the simulated crossing times and the tap tables, and the best point of each operation was then simulated directly.
+Table~\ref{tab:pim} and Fig.~\ref{fig:pim} show these points; the computed codes are one tap conservative, so the 8-row NOR margin is six taps in the direct transient and five in the crossing-time model behind Fig.~\ref{fig:rows} and the temperature results.
 
-At 200\,k$\Omega$ every multi-row operation is resolved at $\Vg=0.8$\,V and at no higher word-line voltage, because the current-limited cells stretch the 8-row discharge band to 20 to 27\,ns (Fig.~\ref{fig:pim}(a)), wide enough for $\Vd$ to place it against the window grid, whereas at $\Vg\ge0.9$\,V the band is shorter than the 10\,ns offset step and falls between window positions.
-At $\Vd=0.9$\,V the all-HRS crossing (23.9\,ns) lies inside the window and the $k=1$ crossing (22.9\,ns) before it, which gives the codes 7, 1, 0, \ldots\ of Fig.~\ref{fig:pim}(b) and a NOR margin of six taps, and the ideal 1\,M$\Omega$ reaches the full scale.
+At 200\,k$\Omega$ every multi-row operation is resolved at $\Vg=0.8$\,V and at no higher word-line voltage, because the current-limited cells stretch the all-HRS crossing to 21 to 27\,ns (Fig.~\ref{fig:pim}(a)), far enough for $\Vd$ to place the band against the window grid, whereas at $\Vg\ge0.9$\,V the band is shorter than the 10\,ns offset step and falls between window positions.
+At $\Vd=0.9$\,V the all-HRS crossing (23.9\,ns) lies inside the window and the $k=1$ crossing (22.9\,ns) before it, which gives the codes 7, 1, 0, \ldots\ of Fig.~\ref{fig:pim}(b) and a NOR margin of six taps, and the deep-reset 1\,M$\Omega$ reaches the full scale.
 The majority is harder, because the step from $k$ to $k+1$ shrinks as $1/k^2$, so $c(4)-c(5)$ needs the window on the compressed part of the band; $\Vd=1.0$\,V moves it there and gives a majority by two taps, or four at 1\,M$\Omega$.
 The 10\,ns step, one clock period, is thus the main limitation of the design, since it caps both the row count and the hot-corner margins that follow.
 
 \subsection{Rows per access, corners, and temperature}
 \label{sec:rows}
-\begin{table}[!t]
-\centering
-\caption{Margin in taps vs.\ temperature at 200\,k$\Omega$, fixed / re-tuned setting}
-\label{tab:retune}
-\scriptsize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lccc@{}}
-\toprule
- & $-40$\,\si{\celsius} & 27\,\si{\celsius} & 125\,\si{\celsius}\\
-\midrule
-read, 1 row & 8 / 8 & 8 / 8 & 8 / 8\\
-NOR, 8 rows & 0 / 5 & 5 / 5 & 0 / 1\\
-majority, 8 rows & 0 / 2 & 2 / 2 & 0 / 0\\
-\bottomrule
-\end{tabular}
-\end{table}
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{rows}
@@ -72,23 +58,23 @@ majority, 8 rows & 0 / 2 & 2 / 2 & 0 / 0\\
 Fig.~\ref{fig:rows} extends the same model from one to eight rows over the full supply grid, and to 16 to 64 rows at the best 8-row supplies.
 At 200\,k$\Omega$ the NOR keeps all eight taps up to four rows and four to five taps up to eight, while the majority falls from eight taps at two rows to two or three at six to eight.
 Every open row adds an HRS current against which one LRS cell must stand out, so the crossing-time step behind each decision falls roughly as $1/n^2$ (Fig.~\ref{fig:rows}(b)), from 17\,ns (NOR) and 5\,ns (majority) at two rows to 1.4 and 0.4\,ns at eight.
-From 16 rows on, the step at 200\,k$\Omega$ is at or below a tap pitch, and the single-tap margins computed there are tap-edge artifacts.
-One access therefore decides over at most eight rows at the characterized HRS, wider sums are split into eight-row groups that the host combines, and only two rows give a distinct code for every count.
+From 16 rows on, the step at 200\,k$\Omega$ is at or below a tap pitch.
+One access therefore decides over at most eight rows at the characterized HRS, and a wider NOR is split into eight-row groups that the host combines.
 
-Over the process corners and $-40$ to 125\,\si{\celsius} the 8-row band moves from 16 to 60\,ns against the 10\,ns window step, and this is where the tunability matters (Table~\ref{tab:retune}).
-With the room-temperature setting held fixed, the 8-row operations are lost at both temperature extremes, whereas re-tuning $\Vd$, $\Vg$, $\Vdel$, and the offset per temperature keeps the single-row read at eight taps everywhere and recovers the 8-row NOR at $-40$\,\si{\celsius} with five taps, but not at 125\,\si{\celsius}, where the band is shorter than the step and one tap remains.
+Over the five PSP corners and $-40$ to 125\,\si{\celsius}, with the cell resistances scaled by the measured temperature coefficients~\cite{zanotti2026model}, the all-HRS crossing of the 8-row read moves from 16\,ns (ff, 125\,\si{\celsius}) to 60\,ns (ss, $-40$\,\si{\celsius}) against the 10\,ns window step, and this is where the tunability matters.
+With the room-temperature setting held fixed, the single-row read keeps its eight taps everywhere but the 8-row operations are lost at both temperature extremes; re-searching the offset decides the single-row read in 14 of the 15 corner-temperature pairs, and re-tuning $\Vd$, $\Vg$, $\Vdel$, and the offset per temperature recovers the 8-row NOR at $-40$\,\si{\celsius} with five taps and the majority with two, the margins of 27\,\si{\celsius}, but not at 125\,\si{\celsius}, where the band is shorter than the step and one tap remains.
 
 \subsection{Read disturb and the device budget}
-A read biases the selected cells in the RESET polarity, with BL high and SL grounded, so repeated reads push the cells toward the HRS, and it is $\Vg$ rather than $\Vd$ that sets the stress.
+A read biases the selected cells in the RESET polarity, with BL high and SL grounded, so repeated reads push the cells toward the HRS.
 At the best points a cell sees at most 0.06 to 0.12\,V and 0.8 to 1.3\,\si{\micro\ampere}, below the 0.2\,V read condition of the device and a sixth of its 8\,\si{\micro\ampere} RESET target.
 On these devices $10^5$ pulses of 10\,\si{\micro\second} at 0.1 to 0.2\,V leave every level unchanged and drift starts at 0.3\,V, while retention alone lowers the LRS by 15\,\% in 100\,h at room temperature~\cite{baroni2026drift}, so the refresh interval is set by retention and temperature rather than by the read count.
 
 The margins above hold at the typical corner with fixed resistances, and the final question is how much spread they tolerate.
-With a 3 to 3.6:1 current contrast, a Monte Carlo analysis on the simulated crossing times, checked against 160 SPICE runs with drawn cell resistances, limits the HRS spread for an $n$-row decision at a $10^{-3}$ error rate to $\sigma_{\ln R}\approx0.46/\sqrt{n}$ with an ideal threshold, which is 0.46 for a single row, 0.33 for two rows, and 0.16 for eight.
-Measured arrays show 0.3 to 0.6 on the 250\,nm devices and 0.5 to 1 on the Al-doped 130\,nm devices, whose HRS at the same verify has a median of 90 to 220\,k$\Omega$ but a conductive edge pinned at 50\,k$\Omega$~\cite{perez2017hfalo,baroni2025aldoping}.
-The single-row read therefore works at the characterized HRS, whereas the 8-row logic needs the deeper reset of the 1\,M$\Omega$ rows of Table~\ref{tab:pim}, which buys a full-scale 8-row NOR, a four-tap majority, and an eight-row spread limit of 0.5, inside the measured range.
-A deeper reset, a tighter verify window, and fewer rows per access are the levers, and a higher word-line voltage adds only 30 to 45\,\% of contrast.
-The first two are programming-time costs, since a deeper reset takes more incremental-step-pulse-with-verify (ISPVA) pulses per write, about twelve of 12\,\si{\micro\second} at the 5\,\si{\micro\ampere} target~\cite{perez2017hfalo}, and with Al doping leaves a quarter of the cells at the read floor~\cite{baroni2025aldoping}, while a tighter window costs further verify iterations.
+A Monte Carlo draws every open cell from a lognormal distribution ($\sigma_{\ln R}=0.1$ for the LRS, swept for the HRS) behind the 0.08\,M$\Omega$ access resistance of the weak-inversion transistor (a 3:1 contrast), interpolates the simulated crossing times in the summed conductance, and counts the errors of one column decision at an ideal threshold midway between the nominal sums ($10^5$ draws); 160 SPICE runs with drawn resistances reproduce its crossing-time spread.
+At a $10^{-3}$ error per decision the HRS spread is limited to 0.45 for a single row, 0.33 for two rows, and 0.17 for the 8-row NOR (0.24 for the majority), close to $0.46/\sqrt{n}$, the Gaussian-sum form in which each open HRS cell adds its own noise.
+The module's HfAlO stack is that of IHP's 250\,nm arrays, where the verify-programmed HRS shows a spread of 0.5 with its conductive edge clipped by the verify at 40\,k$\Omega$~\cite{perez2017hfalo}; the Al-doped 130\,nm devices show 0.5 to 1 with a median of 90 to 220\,k$\Omega$ and the edge pinned at 50\,k$\Omega$~\cite{baroni2025aldoping}.
+The single-row read therefore sits at the edge of the characterized state, with the clipped edge in its favor, whereas the 8-row logic needs the deeper reset of the 1\,M$\Omega$ rows of Table~\ref{tab:pim}, which buys a full-scale 8-row NOR, a four-tap majority, and an 8-row spread limit of 0.5 (0.6 for the majority).
+A deeper reset, a tighter verify window, and fewer rows per access are the levers (a higher word-line voltage adds only 30 to 45\,\% of contrast), and the first two are programming-time costs: a deeper reset takes more pulses of the incremental step pulse with verify algorithm (ISPVA), about twelve of 12\,\si{\micro\second}~\cite{perez2017hfalo}, and with Al doping leaves a quarter of the cells above 1\,M$\Omega$ at the read-current floor~\cite{baroni2025aldoping}.
 
 \subsection{Comparison and limitations}
 \begin{table}[!t]
@@ -99,6 +85,6 @@ The first two are programming-time costs, since a deeper reset takes more increm
 \setlength{\tabcolsep}{1.7pt}
 \input{tab_prior}
 \end{table}
-Table~\ref{tab:prior} places the read next to the silicon RRAM and time-domain macros it draws on.
+Table~\ref{tab:prior} places the read next to the silicon macros it draws on.
 Those macros are MAC engines, so the table compares structure rather than figures of merit, and against their reference-tracked or calibrated readouts this work trades throughput for a bitwise read of up to eight rows whose every timing and drive level is a register or a pad.
-The evaluation rests on an 8$\times$8 slice with resistor cells and a single value of $C_\mathrm{MIM}$, and its disturb bound rests on SET-polarity data, so the HRS spread and the RESET-polarity disturb are the first quantities to measure on silicon, while a fractional-cycle offset, which would lift the eight-row cap and the loss at 125\,\si{\celsius}, is the first change for a second version.
+The evaluation rests on a slice with resistor cells and one $C_\mathrm{MIM}$, the Monte Carlo varies the cell resistances only, and the disturb bound rests on SET-polarity data, so the HRS spread, the access-transistor mismatch, and the RESET-polarity disturb are the first quantities to measure on silicon, and a fractional-cycle offset is the first change for a second version.

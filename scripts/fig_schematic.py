@@ -150,7 +150,7 @@ def timing(ax):
     ax.axis("off")
     rows = [("PWR_EN", [(0, 0), (0.6, 1), (2.6, 0)]),
             ("WLS→WL", [(0, 0), (2.8, 1)]),
-            (r"DRAIN$_\mathrm{SL}$", [(0, 1), (0.6, 0), (5.2, 1)]),
+            (r"DRAIN$_\mathrm{SL}$", [(0, 1), (0.6, 0), (2.8, 1)]),   # settle-drain: SL grounded as the rows open
             ("READ", [(0, 0), (6.4, 1)])]
     y = 5.6
     for name, ev in rows:
@@ -165,15 +165,14 @@ def timing(ax):
         y -= 0.95
     # bitline
     t = np.linspace(0, 9.8, 400)
-    def bl(tau):
-        v = np.where(t < 0.6, 0.0, np.where(t < 2.6, 1.0, 1.0))
-        v = np.where(t >= 2.8, 1.0 - 0.15 * (1 - np.exp(-(t - 2.8) / 3)), v)
-        d = t >= 5.2
-        v[d] = v[d][0] * np.exp(-(t[d] - 5.2) / tau)
+    def bl(tau):   # discharge starts when the rows open onto the grounded SL (2.8)
+        v = np.where(t < 0.6, 0.0, 1.0)
+        d = t >= 2.8
+        v[d] = np.exp(-(t[d] - 2.8) / tau)
         return v
     yb = 0.0
-    ax.plot(t, yb + 1.6 * bl(0.35), color=S.BLUE, lw=1.1)
-    ax.plot(t, yb + 1.6 * bl(4.0), color=S.ORANGE, lw=1.1)
+    ax.plot(t, yb + 1.6 * bl(1.0), color=S.BLUE, lw=1.1)
+    ax.plot(t, yb + 1.6 * bl(8.0), color=S.ORANGE, lw=1.1)
     ax.text(-0.1, yb + 0.8, "BL", fontsize=5.5, ha="right", va="center")
     ax.axhline(yb + 0.8, xmin=0.5, xmax=0.98, color=S.INK2, lw=0.5, ls=(0, (3, 2)))
     ax.axvspan(6.6, 7.3, ymin=0.0, ymax=0.97, color=S.AQUA, alpha=0.35, lw=0)
@@ -188,7 +187,7 @@ def timing(ax):
 
 def main():
     S.setup()
-    fig = plt.figure(figsize=(S.COL_W, 2.75))
+    fig = plt.figure(figsize=(S.COL_W, 2.55))
     ax1 = fig.add_axes([0.0, 0.27, 1.0, 0.73])
     ax2 = fig.add_axes([0.17, 0.02, 0.8, 0.235])
     schematic(ax1)
